@@ -44,7 +44,8 @@ document.querySelector('#search-text').addEventListener('input', (e) => {
 //Cancel default
 document.querySelector('#name-form').addEventListener('submit', (e) => {
     e.preventDefault()
-    console.log(e.target.elements.firstName.value)
+    e.target.elements.firstName.value = ''
+    // console.log(e.target.elements.firstName.value)
 })
 
 
