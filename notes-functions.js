@@ -18,6 +18,8 @@ const getSavedNotes = function () {
 Generate notes
  *******************************************************/ 
 
+
+
 const generateNoteDOM = function (note) {
     const noteElement = document.createElement('p')
 
@@ -29,9 +31,13 @@ const generateNoteDOM = function (note) {
     return noteElement
 }
 
+
+
 /********************************************************
 Render app notes
  *******************************************************/
+
+
 
 const renderNotes = function (notes, filters) {
     const filteredNotes = notes.filter(function (note) {
@@ -46,9 +52,20 @@ const renderNotes = function (notes, filters) {
     })
 }
 
+
+
 /********************************************************
 Save notes to local storage
  *******************************************************/
+
+
+
 const saveNotes = function (notes) {
     localStorage.setItem('notes', JSON.stringify(notes))
 }
+
+
+
+/********************************************************
+*
+ *******************************************************/
