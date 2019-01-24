@@ -1,19 +1,18 @@
 // The DOM - Document Model 
 
-const notes = [{
-    title: 'My next trip',
-    body: 'I would like to go to Spain'
-}, {
-    title: 'Habits to work on',
-    body: 'Drink more'
-}, {
-    title: 'Office Modifications',
-    body: 'Get a new seat'
-}]
+let notes = []
 
 const filters = {
     searchText: ''
 }
+
+//Check for existing saved data
+const notesJSON = localStorage.getItem('notes')
+
+if (notesJSON !== null) {
+    notes = JSON.parse(notesJSON)
+}
+
 
 const renderNotes = function (notes, filters) {
     const filteredNotes = notes.filter(function (note) {
@@ -24,7 +23,13 @@ const renderNotes = function (notes, filters) {
 
     filteredNotes.forEach(function (note) {
         const noteElement = document.createElement('p')
-        noteElement.textContent = note.title
+
+        if (note.title.length > 0) {
+            noteElement.textContent = note.title
+        } else {
+            noteElement.textContent = 'Unnamed note'
+        }
+
         document.querySelector('#notes').appendChild(noteElement)
     })
 }
@@ -32,7 +37,12 @@ const renderNotes = function (notes, filters) {
 renderNotes(notes, filters)
 
 document.querySelector('#create-note').addEventListener('click', function(e) {
-    e.target.textContent = 'The button was clicked'
+    notes.push({
+        title: '',
+        body: ''
+    })
+    localStorage.setItem('notes', JSON.stringify(notes))
+    renderNotes(notes, filters)
 })
 
 
@@ -41,23 +51,45 @@ document.querySelector('#search-text').addEventListener('input', (e) => {
     renderNotes(notes, filters)
 })
 
-//Cancel default
-document.querySelector('#name-form').addEventListener('submit', (e) => {
-    e.preventDefault()
-    e.target.elements.firstName.value = ''
-    // console.log(e.target.elements.firstName.value)
+
+document.querySelector('#filter-by').addEventListener('change', function (e) {
+    console.log(e.target.value)
 })
 
 
 
+// Intro till Local Storage
+
+// const user = {
+//     name : 'andrew',
+//     age : 27
+// }
+// const userJSON = JSON.stringify(user)
+// console.log(userJSON)
+// localStorage.setItem('user', userJSON)
+
+
+// const userJSON = localStorage.getItem('user')
+// const user = JSON.parse(userJSON)
+// console.log(`${user.name} is ${user.age}`)
 
 
 
+//localStorage.setItem('location', 'Göteborg')
+
+//console.log(localStorage.getItem('location'))
+
+//localStorage.removeItem('location')
+
+// localStorage.clear()
 
 
-
-
-
+// //Cancel default
+// document.querySelector('#name-form').addEventListener('submit', (e) => {
+//     e.preventDefault()
+//     e.target.elements.firstName.value = ''
+//     // console.log(e.target.elements.firstName.value)
+// })
 
 
 // document.querySelector('#remove-all').addEventListener('click', (e) => {
