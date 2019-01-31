@@ -15,19 +15,48 @@ const getSavedNotes = function () {
 }
 
 /********************************************************
+Remove note
+ *******************************************************/
+const removeNote = function (id) {
+    const noteIndex = notes.findIndex(function (note) {
+        return note.id === id
+    })
+
+    if (noteIndex > -1) {
+        notes.splice(noteIndex, 1)
+    }
+}
+
+/********************************************************
 Generate notes
  *******************************************************/ 
 
 
 
 const generateNoteDOM = function (note) {
-    const noteElement = document.createElement('p')
+    
+    const noteElement = document.createElement('div')
+    const textElement = document.createElement('a')
+    const button = document.createElement('button')
+       
+    button.textContent = 'x'
+    noteElement.appendChild(button)
+    button.addEventListener('click', function () {
+        removeNote(note.id)
+        saveNotes(notes)
+        renderNotes(notes, filters)
+    })
 
+    //Setup the note title text
     if (note.title.length > 0) {
-        noteElement.textContent = note.title
+        textElement.textContent = note.title
     } else {
-        noteElement.textContent = 'Unnamed note'
+        textElement.textContent = 'Unnamed note'
     }
+   
+    textElement.setAttribute('href', `/edit.html#${note.id}`)
+    noteElement.appendChild(textElement)
+
     return noteElement
 }
 

@@ -1,6 +1,8 @@
+const inputText = document.querySelector('#search-text');
+
 // The DOM - Document Model 
 
-const notes = getSavedNotes()
+let notes = getSavedNotes()
 
 const filters = {
     searchText: ''
@@ -9,16 +11,18 @@ const filters = {
 renderNotes(notes, filters)
 
 document.querySelector('#create-note').addEventListener('click', function(e) {
+    const uniqueId = uuidv4();
     notes.push({
+        id: uniqueId,
         title: '',
-        body: ''
+        body: ''   
     })
     saveNotes(notes)
-    renderNotes(notes, filters)
+    location.assign(`/edit.html#${uniqueId}`)
 })
 
 
-document.querySelector('#search-text').addEventListener('input', (e) => {
+inputText.addEventListener('input', (e) => {
     filters.searchText = e.target.value
     renderNotes(notes, filters)
 })
@@ -28,8 +32,12 @@ document.querySelector('#filter-by').addEventListener('change', function (e) {
     console.log(e.target.value)
 })
 
-
-
+window.addEventListener('storage', (e) => {
+    if (e.key === 'notes') {
+        notes = JSON.parse(e.newValue)
+        renderNotes(notes, filters)
+    }
+})
 // Intro till Local Storage
 
 // const user = {
