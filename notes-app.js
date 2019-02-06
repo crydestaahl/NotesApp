@@ -1,11 +1,14 @@
 const inputText = document.querySelector('#search-text');
+const timestamp = moment().valueOf()
+
 
 // The DOM - Document Model 
 
 let notes = getSavedNotes()
 
 const filters = {
-    searchText: ''
+    searchText: '',
+    sortBy: 'byEdited'
 }
 
 renderNotes(notes, filters)
@@ -15,7 +18,9 @@ document.querySelector('#create-note').addEventListener('click', function(e) {
     notes.push({
         id: uniqueId,
         title: '',
-        body: ''   
+        body: '',
+        createdAt: timestamp,
+        updatedAt: timestamp 
     })
     saveNotes(notes)
     location.assign(`/edit.html#${uniqueId}`)
@@ -29,7 +34,8 @@ inputText.addEventListener('input', (e) => {
 
 
 document.querySelector('#filter-by').addEventListener('change', function (e) {
-    console.log(e.target.value)
+    filters.sortBy = e.target.value
+    renderNotes(notes, filters)
 })
 
 window.addEventListener('storage', (e) => {
@@ -38,6 +44,26 @@ window.addEventListener('storage', (e) => {
         renderNotes(notes, filters)
     }
 })
+
+
+
+
+
+
+
+
+
+
+/********************************************************
+ Graveyard
+ *******************************************************/
+
+// const now = moment().set({'year': 1986, 'month': 3, 'date': 27})
+// now.format('MMM, D, YYYY')
+// console.log(now.format('MMM D, YYYY'))
+
+
+ 
 // Intro till Local Storage
 
 // const user = {

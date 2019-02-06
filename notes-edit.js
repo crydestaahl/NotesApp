@@ -1,4 +1,5 @@
 const titleValue = document.querySelector('#note-title')
+const lastEditedText = document.querySelector('#last-edited')
 const bodyValue = document.querySelector('#note-body')
 const removeButton = document.querySelector('#remove-note')
 const noteId = location.hash.substring(1)
@@ -14,16 +15,21 @@ if (note === undefined ) {
 
 titleValue.value = note.title
 bodyValue.value = note.body
+lastEditedText.textContent = generateLastEdited(note.updatedAt)
 
 //Listener for changes in input and save to local storage
 titleValue.addEventListener('input',  () => {
     note.title = document.querySelector('#note-title').value
+    note.updatedAt = moment().valueOf()
+    lastEditedText.textContent = generateLastEdited(note.updatedAt)
     saveNotes(notes)
 })
 
 //Listener for changes in body text and save to local storage
 bodyValue.addEventListener('input', () => {
     note.body = document.querySelector('#note-body').value
+    note.updatedAt = moment().valueOf()
+    lastEditedText.textContent = generateLastEdited(note.updatedAt)
     saveNotes(notes)
 })
 
@@ -48,5 +54,6 @@ window.addEventListener('storage', (e) => {
 
         titleValue.value = note.title
         bodyValue.value = note.body
+        lastEditedText.textContent = generateLastEdited(note.updatedAt)
     }
 })
