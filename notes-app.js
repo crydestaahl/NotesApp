@@ -1,9 +1,10 @@
+'use strict'
+
 const inputText = document.querySelector('#search-text');
 const timestamp = moment().valueOf()
 
 
 // The DOM - Document Model 
-
 let notes = getSavedNotes()
 
 const filters = {
@@ -13,7 +14,7 @@ const filters = {
 
 renderNotes(notes, filters)
 
-document.querySelector('#create-note').addEventListener('click', function(e) {
+document.querySelector('#create-note').addEventListener('click', (e) => {
     const uniqueId = uuidv4();
     notes.push({
         id: uniqueId,
@@ -33,7 +34,7 @@ inputText.addEventListener('input', (e) => {
 })
 
 
-document.querySelector('#filter-by').addEventListener('change', function (e) {
+document.querySelector('#filter-by').addEventListener('change', (e) => {
     filters.sortBy = e.target.value
     renderNotes(notes, filters)
 })

@@ -1,26 +1,25 @@
+'use strict'
 
 /********************************************************
  Check for saved data in local storage
  *******************************************************/
 
 
-const getSavedNotes = function () {
+const getSavedNotes = () => {
     const notesJSON = localStorage.getItem('notes')
-
-    if (notesJSON !== null) {
-        return JSON.parse(notesJSON)
-    } else {
+    
+    try {
+        return notesJSON ? JSON.parse(notesJSON) : []
+    } catch (e) {
         return []
     }
 }
 
 /********************************************************
-Remove note
+Remove note   
  *******************************************************/
-const removeNote = function (id) {
-    const noteIndex = notes.findIndex(function (note) {
-        return note.id === id
-    })
+const removeNote = (id) => {
+    const noteIndex = notes.findIndex((note) =>  note.id === id)
 
     if (noteIndex > -1) {
         notes.splice(noteIndex, 1)
@@ -32,8 +31,7 @@ Generate notes
  *******************************************************/ 
 
 
-
-const generateNoteDOM = function (note) {
+const generateNoteDOM = (note) => {
     
     const noteElement = document.createElement('div')
     const textElement = document.createElement('a')
@@ -47,7 +45,7 @@ const generateNoteDOM = function (note) {
         renderNotes(notes, filters)
     })
 
-    //Setup the note title text
+    //Setup the note title text 
     if (note.title.length > 0) {
         textElement.textContent = note.title
     } else {
@@ -60,8 +58,11 @@ const generateNoteDOM = function (note) {
     return noteElement
 }
 
+/********************************************************
+Sort notes
+ *******************************************************/
 
-const sortNotes = function (notes, sortBy) {
+const sortNotes = (notes, sortBy) => {
     if (sortBy === 'byEdited') {
         return notes.sort(function (a, b) {
             if (a.updatedAt > b.updatedAt) {
@@ -100,9 +101,7 @@ const sortNotes = function (notes, sortBy) {
 Render app notes
  *******************************************************/
 
-
-
-const renderNotes = function (notes, filters) {
+const renderNotes = (notes, filters) => {
     notes = sortNotes(notes, filters.sortBy)
     const filteredNotes = notes.filter(function (note) {
         return note.title.toLowerCase().includes(filters.searchText.toLowerCase())
@@ -116,24 +115,18 @@ const renderNotes = function (notes, filters) {
     })
 }
 
-
-
 /********************************************************
 Save notes to local storage
  *******************************************************/
 
-
-
-const saveNotes = function (notes) {
+const saveNotes = (notes) => {
     localStorage.setItem('notes', JSON.stringify(notes))
 }
-
-
 
 /********************************************************
 Get the last edited message
  *******************************************************/
-const generateLastEdited = function (timestamp) {
+const generateLastEdited = (timestamp) => {
     return `Last edited ${moment(timestamp).fromNow()}`
 }
     

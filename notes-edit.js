@@ -1,15 +1,18 @@
+'use strict'
+
 const titleValue = document.querySelector('#note-title')
 const lastEditedText = document.querySelector('#last-edited')
 const bodyValue = document.querySelector('#note-body')
 const removeButton = document.querySelector('#remove-note')
 const noteId = location.hash.substring(1)
-let notes = getSavedNotes()
-let note = notes.find(function (note) {
-    return note.id === noteId
-})
+const homeBtn = document.querySelector('#go-home')
 
-if (note === undefined ) {
-    console.log('Note note found')
+//Get the notes
+let notes = getSavedNotes();
+
+let note = notes.find((note) => note.id === noteId)
+
+if (!note) {
     location.assign('/index.html')
 }
 
@@ -47,8 +50,7 @@ window.addEventListener('storage', (e) => {
             return note.id === noteId
         })
 
-        if (note === undefined) {
-            console.log('Note note found')
+        if (!note) {
             location.assign('/index.html')
         }
 
@@ -57,3 +59,5 @@ window.addEventListener('storage', (e) => {
         lastEditedText.textContent = generateLastEdited(note.updatedAt)
     }
 })
+
+homeBtn.addEventListener('click', () => location.assign('/index.html'))
